@@ -22,7 +22,7 @@ module.exports = function (app) {
         for (var i = 0; i < friends.length; i++) {
 
             var friendScore = 0;
-            
+
             for (var j = 0; j < friends[i].scores.length; j++) {
                 friendScore += parseInt(friends[i].scores[j]);
             }
@@ -33,18 +33,13 @@ module.exports = function (app) {
             if (newDifference < minimumDifference) {
                 minimumDifference = newDifference;
                 var bestFriendInfo = [friends[i].name, friends[i].photo]
-                var bestFriendPhoto = friends[i].photo;
             }
 
         }
 
-        // console.log(bestFriendName, bestFriendPhoto);
-        console.log(bestFriendInfo);
-
         friends.push(req.body)
 
         res.json(bestFriendInfo);
-
     });
 
 
