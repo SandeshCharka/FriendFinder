@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Bootstrap script tag needs to be after jQuery for modal to work. -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -50,10 +52,8 @@
         </div>
         <br>
         <!-- Modal for after Survey -->
-        <!-- Button trigger modal -->
-        <!-- Modal -->
-        <div class="modal fade" id="bestFriendModal" tabindex="-1" role="dialog"
-            aria-labelledby="bestFriendModalTitle" aria-hidden="true">
+        <div class="modal fade" id="bestFriendModal" tabindex="-1" role="dialog" aria-labelledby="bestFriendModalTitle"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header text-center">
@@ -61,7 +61,8 @@
                     </div>
                     <div class="modal-body">
                         <h2 class="text-center" id="bestFriend"></h2>
-                        <img class="text-center align-center" id="bestFriendPhoto" src="#" style="height:auto; max-width:100%;">
+                        <img class="text-center align-center" id="bestFriendPhoto" src="#"
+                            style="height:auto; max-width:100%;">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -78,8 +79,6 @@
             </footer>
         </div>
     </div>
-
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
         var myQuestions = [{
@@ -113,45 +112,73 @@
                 question: "You feel more energetic after spending time with a group of people."
             }
         ];
-        var k = 1;
-        var l = 0;
-
+        var k = 0;
+        var l = 1;
+        // Dynamically creating survey questions and radio buttons.
         for (var j = 0; j < myQuestions.length; j++) {
             $("#formArea").append("<h6>" + myQuestions[j].question + "</h6>");
-            l++;
+            k++;
             for (var i = 1; i <= 5; i++) {
+                // How to use "REQUIRED" for form validation. Doesn't work when I try so here.
                 $("#formArea").append(
-                    `<div class='form-group custom-control custom-radio custom-control-inline'> <input type=radio id='customRadioInline${k}' name=customRadioInline${l} class=custom-control-input value=${i}>  <label class=custom-control-label for=customRadioInline${k}>${i}</label></div>`
+                    `<div class='form-group custom-control custom-radio custom-control-inline'> <input type=radio id='answer${l}' name=answer${k} class=custom-control-input value=${i}>  <label class=custom-control-label for=answer${l}> ${i}</label></div>`
                 );
-                k++;
+                l++
             }
         }
+        // Submit Button
         $("#formArea").append(
             `<div><button type="submit" class="btn btn-primary" id="submitButton">Submit</button></div>`)
 
+        // Form submission
         $("#submitButton").on("click", function (event) {
             event.preventDefault();
-            var newFriend = {
-                name: $("#formName").val().trim(),
-                photoLink: $("#formPhoto").val().trim(),
-                scores: [
-                    $("input[name=customRadioInline1]:checked").val().trim(),
-                    $("input[name=customRadioInline2]:checked").val().trim(),
-                    $("input[name=customRadioInline3]:checked").val().trim(),
-                    $("input[name=customRadioInline4]:checked").val().trim(),
-                    $("input[name=customRadioInline5]:checked").val().trim(),
-                    $("input[name=customRadioInline6]:checked").val().trim(),
-                    $("input[name=customRadioInline7]:checked").val().trim(),
-                    $("input[name=customRadioInline8]:checked").val().trim(),
-                    $("input[name=customRadioInline9]:checked").val().trim(),
-                    $("input[name=customRadioInline10]:checked").val().trim(),
-                ]
-            };
-            $.post("/api/friends", newFriend, function (data) {
-                $("#bestFriend").text(data[0]);
-                $("#bestFriendPhoto").attr("src", (data[1]));
-                $("#bestFriendModal").modal("toggle");
-            });
+
+            // Form validation
+            var valid = true;
+
+            if ($("#formName").val() === "" || $("#formPhoto").val() === "") {
+                valid = false;
+            } else if (
+                $("input[name=answer1]:checked").val() === undefined ||
+                $("input[name=answer2]:checked").val() === undefined ||
+                $("input[name=answer3]:checked").val() === undefined ||
+                $("input[name=answer4]:checked").val() === undefined ||
+                $("input[name=answer5]:checked").val() === undefined ||
+                $("input[name=answer6]:checked").val() === undefined ||
+                $("input[name=answer7]:checked").val() === undefined ||
+                $("input[name=answer8]:checked").val() === undefined ||
+                $("input[name=answer9]:checked").val() === undefined ||
+                $("input[name=answer10]:checked").val() === undefined
+            ) {
+                valid = false;
+            }
+
+            if (valid) {
+                var newFriend = {
+                    name: $("#formName").val().trim(),
+                    photoLink: $("#formPhoto").val().trim(),
+                    scores: [
+                        $("input[name=answer1]:checked").val().trim(),
+                        $("input[name=answer2]:checked").val().trim(),
+                        $("input[name=answer3]:checked").val().trim(),
+                        $("input[name=answer4]:checked").val().trim(),
+                        $("input[name=answer5]:checked").val().trim(),
+                        $("input[name=answer6]:checked").val().trim(),
+                        $("input[name=answer7]:checked").val().trim(),
+                        $("input[name=answer8]:checked").val().trim(),
+                        $("input[name=answer9]:checked").val().trim(),
+                        $("input[name=answer10]:checked").val().trim(),
+                    ]
+                };
+                $.post("/api/friends", newFriend, function (data) {
+                    $("#bestFriend").text(data[0]);
+                    $("#bestFriendPhoto").attr("src", (data[1]));
+                    $("#bestFriendModal").modal("toggle");
+                });
+            } else {
+                alert("Survey is incomplete!");
+            }
         });
     </script>
 
