@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Page!</title>
+    <!-- **For Bootstrap Glyphicons**, have to use version 3 -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center"><span class="fa fa-facebook-square"></span> Friend Survey!</h1>
+            <hr>
+            <h3 class="text-center">Fill in your answers!</h3>
+            <br>
+            <div class='text-center'>
+                <a href="/"><button class="btn btn-info btn-lg"><span class="fa fa-eye"></span> Home Page</button></a>
+            </div>
+        </div>
+        <div>
+            <div class="card">
+                <div class="card-header">Compatibility Survey</div>
+                <div class="card-body">
+                    <form id="formArea">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="formName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="unique id">Photo Link</label>
+                            <input type="text" class="form-control" id="formPhoto" required>
+                        </div>
+                        <div>
+                            <h5>Survey Instructions: || 1: Strongly Disagree || 3: Neutral || 5: Strongly Agree</h5>
+                            <br>
+                        </div>
+                        <!-- Survey is being produced from js script -->
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- Modal for after Survey -->
+        <!-- Button trigger modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="bestFriendModal" tabindex="-1" role="dialog"
+            aria-labelledby="bestFriendModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title text-center">Your Compatible Friend!</h5>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class="text-center" id="bestFriend"></h2>
+                        <img class="text-center align-center" id="bestFriendPhoto" src="#" style="height:auto; max-width:100%;">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <footer>
+                <a href="/api/friends">API Friends List</a> |
+                <a href="https://github.com/SandeshCharka/FriendFinder">Github Repo</a>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        var myQuestions = [{
+                question: "Your mind is always buzzing with unexplored ideas and plans."
+            },
+            {
+                question: "Generally speaking, you rely more on your experience than your imagination."
+            },
+            {
+                question: "You find it easy to stay relaxed and focused even when there is some pressure."
+            },
+            {
+                question: "You rarely do something just out of sheer curiosity."
+            },
+            {
+                question: "People can rarely upset you."
+            },
+            {
+                question: "It is often difficult for you to relate to other people’s feelings."
+            },
+            {
+                question: "In a discussion, truth should be more important than people’s sensitivities."
+            },
+            {
+                question: "You rarely get carried away by fantasies and ideas."
+            },
+            {
+                question: "You think that everyone’s views should be respected regardless of whether they are supported by facts or not."
+            },
+            {
+                question: "You feel more energetic after spending time with a group of people."
+            }
+        ];
+        var k = 1;
+        var l = 0;
+
+        for (var j = 0; j < myQuestions.length; j++) {
+            $("#formArea").append("<h6>" + myQuestions[j].question + "</h6>");
+            l++;
+            for (var i = 1; i <= 5; i++) {
+                $("#formArea").append(
+                    `<div class='form-group custom-control custom-radio custom-control-inline'> <input type=radio id='customRadioInline${k}' name=customRadioInline${l} class=custom-control-input value=${i}>  <label class=custom-control-label for=customRadioInline${k}>${i}</label></div>`
+                );
+                k++;
+            }
+        }
+        $("#formArea").append(
+            `<div><button type="submit" class="btn btn-primary" id="submitButton">Submit</button></div>`)
+
+        $("#submitButton").on("click", function (event) {
+            event.preventDefault();
+            var newFriend = {
+                name: $("#formName").val().trim(),
+                photoLink: $("#formPhoto").val().trim(),
+                scores: [
+                    $("input[name=customRadioInline1]:checked").val().trim(),
+                    $("input[name=customRadioInline2]:checked").val().trim(),
+                    $("input[name=customRadioInline3]:checked").val().trim(),
+                    $("input[name=customRadioInline4]:checked").val().trim(),
+                    $("input[name=customRadioInline5]:checked").val().trim(),
+                    $("input[name=customRadioInline6]:checked").val().trim(),
+                    $("input[name=customRadioInline7]:checked").val().trim(),
+                    $("input[name=customRadioInline8]:checked").val().trim(),
+                    $("input[name=customRadioInline9]:checked").val().trim(),
+                    $("input[name=customRadioInline10]:checked").val().trim(),
+                ]
+            };
+            $.post("/api/friends", newFriend, function (data) {
+                $("#bestFriend").text(data[0]);
+                $("#bestFriendPhoto").attr("src", (data[1]));
+                $("#bestFriendModal").modal("toggle");
+            });
+        });
+    </script>
+
+</body>
+
+</html>
