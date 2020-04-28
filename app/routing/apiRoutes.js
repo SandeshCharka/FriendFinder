@@ -26,23 +26,19 @@ module.exports = function (app) {
             for (var j = 0; j < friends[i].scores.length; j++) {
                 friendScore += parseInt(friends[i].scores[j]);
             }
-            console.log(friends[i].name)
-            console.log(friendScore);
 
             var newDifference = Math.abs(friendScore - newScore);
+
             if (newDifference < minimumDifference) {
+
                 minimumDifference = newDifference;
                 var bestFriendInfo = [friends[i].name, friends[i].photo]
             }
-
         }
 
         friends.push(req.body)
 
         res.json(bestFriendInfo);
+
     });
-
-
-    // Post and Get
-
 };
