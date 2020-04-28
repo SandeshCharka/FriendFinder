@@ -75,7 +75,8 @@
         <div class="footer">
             <footer>
                 <a href="/api/friends">API Friends List</a> |
-                <a href="https://github.com/SandeshCharka/FriendFinder">Github Repo</a>
+                <a href="https://github.com/SandeshCharka/FriendFinder">Github Repo</a> |
+                <a href="" id="clear">Clear New Additions</a>
             </footer>
         </div>
     </div>
@@ -179,6 +180,13 @@
             } else {
                 alert("Survey is incomplete!");
             }
+        });
+
+        $("#clear").on("click", function (event) {
+            // If you don't want the page to refresh
+            // event.preventDefault();
+            alert("Clearing recent additions");
+            $.post("/api/clear")
         });
     </script>
 

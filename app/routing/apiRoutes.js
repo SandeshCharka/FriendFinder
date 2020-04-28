@@ -9,7 +9,6 @@ module.exports = function (app) {
     });
 
     app.post("/api/friends", function (req, res) {
-        console.log(req.body.scores);
 
         var newScore = 0;
         var friendScore = 0;
@@ -39,6 +38,11 @@ module.exports = function (app) {
         friends.push(req.body)
 
         res.json(bestFriendInfo);
+    });
 
+    app.post("/api/clear", function (req, res) {
+        for (var i = friends.length; i > 6; i--) {
+            friends.pop();
+        }
     });
 };
