@@ -181,13 +181,15 @@
                 alert("Survey is incomplete!");
             }
         });
-
+        
+        // Clear recent additions function
         $("#clear").on("click", function (event) {
-            // If you don't want the page to refresh
-            // event.preventDefault();
+
             alert("Clearing recent additions");
             $.post("/api/clear")
+
         });
+
     </script>
 
 </body>
