@@ -1,22 +1,26 @@
 # FriendFinder
 
+## Live Link
+
+https://friend-finder-sandesh.herokuapp.com/
+
 ## What and Why?
 
-Bamazon is a command line node app. Has 3 different user based functionalities.
-* **Customer**
-    - Allows the user to view and purchase products.
-* **Manager**
-    - Allows the user to view, update, add products as well as viewing product-sales.
-* **Supervisor**
-    - Allows the user to view, add departments, as well as viewing department costs and profits.
+Friend Finder is an app that calculates scores based off the user's survey answers and uses that data to compare to other users within the database to ultimately find compatibility between the users.
 
 ## Overview
 
-### Click the image below for a Demo of the project
+<img alt="FriendFinderDemoPicture" src="https://i.imgur.com/tYbr9mN.png" width="" height="" />
 
-<a href="https://www.screencast.com/t/aS68HGCV00" target="_blank">
-  <img alt="Bamazon Demo Video" src="images\Demo Image.png" width="" height="" />
-</a>
+## Code Explaination
+
+* The `server.js` file sets up the express server which is obtaining the routes from the `routing` folder containing both `apiRoutes.js` and `htmlRoutes.js`.
+* The `apiRotues.js` file contains our routing logic and data for our API pages and the `htmlRoutes.js` file contains our routing logic and data for our HTML pages.
+* Our internal data for the app is located in the `data` folder which contains the `friends.js` file, which is where the users `name` `photoLink` and `scores` from the survey are stored. This file is being exported to the `apiRoutes.js` file.
+* The Front-end is located in the `public` folder which contains our home page `home.html` and our survey page `survey.html`.
+* The best match is calculated by combining all the values from the survey questions for the user and then compared to each user in the data file. The user with the least amount of difference is returned back to the browser.
+* A `modal` is then toggled, displaying the best match for the user.
+
 
 ## Technologies Used
 
