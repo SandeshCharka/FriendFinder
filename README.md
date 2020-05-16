@@ -1,8 +1,6 @@
 # FriendFinder
 
-## Live Link
-
-https://friend-finder-sandesh.herokuapp.com/
+## [Live Website Link](https://friend-finder-sandesh.herokuapp.com/)
 
 ## What and Why?
 
@@ -20,6 +18,25 @@ Friend Finder is an app that calculates scores based off the user's survey answe
 * The Front-end is located in the `public` folder which contains our home page `home.html` and our survey page `survey.html`.
 * The best match is calculated by combining all the values from the survey questions for the user and then compared to each user in the data file. The user with the least amount of difference is returned back to the browser.
 * A `modal` is then toggled, displaying the best match for the user.
+
+## Local Setup
+
+**Step 1 - Clone my repo using the command line below.**
+```
+git clone https://github.com/SandeshCharka/FriendFinder.git
+```
+**Step 2 - Change directory to the cloned repo folder.**
+```
+cd FriendFinder
+```
+**Step 3 - Install all required NPM packages.**
+```
+npm install
+```
+**Step 4 - Start the application server using the command line below**
+```
+node server.js
+```
 
 
 ## Technologies Used
