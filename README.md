@@ -1,8 +1,6 @@
 # FriendFinder
 
-## Live Link
-
-https://friend-finder-sandesh.herokuapp.com/
+## [Live Website Link](https://friend-finder-sandesh.herokuapp.com/)
 
 ## What and Why?
 
